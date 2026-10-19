@@ -14,15 +14,59 @@ models:
     columns:
       - name: cdm_source_name
         data_type: varchar(255)
-        description: Name of CDM instance
+        description: The name of the CDM instance.
         tests:
           - not_null
           - unique
-          
+
       - name: cdm_source_abbreviation
         data_type: varchar(25)
-        description: Abbreviation for the CDM instance
+        description: The abbreviation of the CDM instance.
         tests:
           - not_null
 
       - name: cdm_holder
+        data_type: varchar
+        description: The holder of the CDM instance.
+        tests:
+          - not_null
+
+      - name: source_description
+        data_type: varchar
+        description: The description of the CDM instance.
+
+      - name: source_documentation_reference
+        data_type: varchar
+        description: Refers to a publication or web resource describing the source data, e.g. a data dictionary.
+
+      - name: cdm_etl_reference
+        data_type: varchar
+        description: Version of the ETL script used. e.g. link to the Git release
+
+      - name: source_release_date
+        data_type: date
+        description: The date the data was extracted from the source system. In some systems that is the same as the date the ETL was run. Typically the latest even date in the source is on the source_release_date.
+        tests:
+          - not_null
+
+      - name: cdm_release_date
+        data_type: date
+        description: The date the ETL script was completed. Typically this is after the source_release_date.
+        tests:
+          - not_null
+
+      - name: cdm_version
+        data_type: varchar
+        description: Version of the OMOP CDM used as string. e.g. v5.4
+
+      - name: cdm_version_concept_id
+        data_type: integer
+        description: Concept representing the CDM version
+        tests:
+          - not_null
+
+      - name: vocabulary_version
+        data_type: varchar
+        description: Version of the OMOP standardised vocabularies loaded
+        tests:
+          - not_null

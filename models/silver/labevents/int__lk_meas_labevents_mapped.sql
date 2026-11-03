@@ -31,7 +31,7 @@ SELECT
     adm.hadm_id AS hadm_id,
     ROW_NUMBER() OVER (
         PARTITION BY src.trace_id
-        ORDER BY adm.start_datetime
+        ORDER BY adm.start_datetime, adm.hadm_id
     ) AS row_num
 FROM  
     lk_meas_labevents_clean AS src

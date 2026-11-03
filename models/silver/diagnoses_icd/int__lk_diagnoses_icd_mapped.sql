@@ -48,7 +48,7 @@ mapped AS (
         --
         ROW_NUMBER() OVER (
             PARTITION BY src.trace_id
-            ORDER BY vc2.concept_id
+            ORDER BY vc2.concept_id, vc.concept_id
         ) AS rn
     FROM lk_diagnoses_icd_clean AS src
     LEFT JOIN {{ ref("stg__voc_concept") }} AS vc

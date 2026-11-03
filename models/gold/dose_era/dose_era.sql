@@ -173,7 +173,7 @@ SELECT
     -1 AS event_type,
     ROW_NUMBER() OVER (
         PARTITION BY person_id, drug_concept_id, unit_concept_id, CAST(dose_value AS INTEGER)
-        ORDER BY drug_exposure_start_date
+        ORDER BY drug_exposure_start_date, dose_value
     ) AS start_ordinal
 FROM tmp_cteDoseTarget
 
@@ -200,12 +200,12 @@ SELECT
     event_type AS event_type,
     MAX(start_ordinal) OVER (
         PARTITION BY person_id, drug_concept_id, unit_concept_id, CAST(dose_value AS INTEGER) -- double-check if it is a valid cast
-        ORDER BY event_date, event_type
+        ORDER BY event_date, event_type, dose_value
         ROWS UNBOUNDED PRECEDING
     ) AS start_ordinal,
     ROW_NUMBER() OVER (
         PARTITION BY person_id, drug_concept_id, unit_concept_id, CAST(dose_value AS INTEGER)
-        ORDER BY event_date, event_type
+        ORDER BY event_date, event_type, dose_value
     ) AS overall_ord
 FROM tmp_cteDoseEndDates_rawdata
 ),

@@ -142,7 +142,7 @@ QUALIFY
             src.target_concept_id,
             src.start_datetime,
             src.type_concept_id
-        ORDER BY src.trace_id
+        ORDER BY src.trace_id, src.load_row_id
     ) = 1
 )
 

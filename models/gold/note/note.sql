@@ -45,7 +45,7 @@ notes_with_visit AS (
         vd.visit_detail_id AS visit_detail_id,
         ROW_NUMBER() OVER (
             PARTITION BY src.note_id
-            ORDER BY vo.visit_start_datetime ASC NULLS LAST, vo.visit_occurrence_id ASC
+            ORDER BY vo.visit_start_datetime ASC NULLS LAST, vo.visit_occurrence_id ASC, vd.visit_detail_id ASC NULLS LAST
         ) AS rn
     FROM notes_src_small AS src
     -- this is an inner join as some notes have subject_ids not in person table

@@ -6,7 +6,7 @@ SELECT
     vc.concept_id AS concept_id,
     ROW_NUMBER() OVER (
         PARTITION BY vc.concept_code
-        ORDER BY UPPER(vc.vocabulary_id)
+        ORDER BY UPPER(vc.vocabulary_id), vc.concept_id
     ) AS row_num -- for de-duplication
 FROM
     {{ ref("stg__voc_concept") }} AS vc

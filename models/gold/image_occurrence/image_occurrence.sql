@@ -11,7 +11,7 @@
 
 SELECT
     -- Primary key: hash of dicom_id for stable ID
-    hash(src.dicom_id)                          AS image_occurrence_id,
+    CAST(hash(src.dicom_id) >> 1 AS BIGINT)                          AS image_occurrence_id,
     
     -- Foreign keys to OMOP CDM
     src.person_id                               AS person_id,

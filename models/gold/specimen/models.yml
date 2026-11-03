@@ -12,20 +12,20 @@ models:
 
     columns:
       - name: specimen_id
-        data_type: UBIGINT
+        data_type: INT
         description: Unique identifier for each specimen.
         tests:
           - not_null
           - unique
 
       - name: person_id
-        data_type: UBIGINT
+        data_type: INT
         description: The person from whom the specimen is collected. 
         tests:
           - not_null
 
       - name: specimen_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: CONCEPT_ID that the SPECIMEN_SOURCE_VALUE maps to in the specimen domain.
         tests:
           - not_null

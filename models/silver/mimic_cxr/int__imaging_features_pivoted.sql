@@ -58,7 +58,7 @@ SELECT
     -- Map finding name to SNOMED concept_id via custom mapping
     COALESCE(cm.target_concept_id, 0) AS finding_concept_id,
     -- Generate unique feature ID
-    hash(cl.study_id || '_' || cl.finding_name) AS image_feature_id
+    CAST(hash(cl.study_id || '_' || cl.finding_name) >> 1 AS BIGINT) AS image_feature_id
 FROM chexpert_long cl
 LEFT JOIN study_to_dicom std
     ON cl.study_id = std.study_id

@@ -14,7 +14,7 @@ SELECT
     src.image_feature_id                        AS image_feature_id,
     
     -- Foreign key to image_occurrence
-    hash(src.dicom_id)                          AS image_occurrence_id,
+    CAST(hash(src.dicom_id) >> 1 AS BIGINT)                          AS image_occurrence_id,
     
     -- Feature concept: SNOMED concept for the finding
     src.finding_concept_id                      AS image_feature_concept_id,

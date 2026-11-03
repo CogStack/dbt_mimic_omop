@@ -8,7 +8,7 @@ SELECT
         src.end_datetime,
         LEAD(src.start_datetime) OVER (
             PARTITION BY src.subject_id, src.hadm_id, src.date_id
-            ORDER BY src.start_datetime ASC
+            ORDER BY src.start_datetime ASC, src.visit_detail_id ASC
         ),
         vis.end_datetime
     ) AS end_datetime,
@@ -18,19 +18,19 @@ SELECT
     src.current_location AS current_location,
     LAG(src.visit_detail_id) OVER (
         PARTITION BY src.subject_id, src.hadm_id, src.date_id, src.unit_id
-        ORDER BY src.start_datetime ASC
+        ORDER BY src.start_datetime ASC, src.visit_detail_id ASC
     ) AS preceding_visit_detail_id,
     COALESCE(
         LAG(src.current_location) OVER (
             PARTITION BY src.subject_id, src.hadm_id, src.date_id, src.unit_id -- double-check if chains follow each other or intercept
-            ORDER BY src.start_datetime ASC
+            ORDER BY src.start_datetime ASC, src.visit_detail_id ASC
         ),
         vis.admission_location
     ) AS admission_location,
     COALESCE(
         LEAD(src.current_location) OVER (
             PARTITION BY src.subject_id, src.hadm_id, src.date_id, src.unit_id
-            ORDER BY src.start_datetime ASC
+            ORDER BY src.start_datetime ASC, src.visit_detail_id ASC
         ),
         vis.discharge_location
     ) AS discharge_location,

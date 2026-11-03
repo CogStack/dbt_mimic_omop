@@ -1,5 +1,5 @@
 select
-    concept_id,
+    cast(concept_id as integer) as concept_id,
     concept_name,
     domain_id,
     vocabulary_id,

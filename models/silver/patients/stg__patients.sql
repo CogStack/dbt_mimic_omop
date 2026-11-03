@@ -6,7 +6,7 @@ select
     gender                          AS gender,
     dod::date                       AS dod,
     'patients'                      AS load_table_id,
-    hash(subject_id)                AS load_row_id,
+    CAST(hash(subject_id) >> 1 AS BIGINT)                AS load_row_id,
     json_object(
         'subject_id', subject_id
     )::text                         AS trace_id

@@ -16,14 +16,14 @@ WITH lk_outputevents AS (
         src.trace_id,
 
         -- Semantic grain (DO NOT use as PK)
-        hash(
+        CAST(hash(
             src.subject_id,
             src.hadm_id,
             src.stay_id,
             src.charttime,
             src.itemid,
             src.load_row_id
-        ) AS measurement_group_id
+        ) >> 1 AS BIGINT) AS measurement_group_id
 
     FROM {{ ref("stg__outputevents") }} AS src
     INNER JOIN {{ ref("stg__d_items") }} AS di
@@ -66,7 +66,7 @@ expanded AS (
 )
 
 SELECT
-    hash(measurement_group_id, row_discriminator) AS measurement_id,
+    CAST(hash(measurement_group_id, row_discriminator) >> 1 AS BIGINT) AS measurement_id,
 
     subject_id,
     hadm_id,
@@ -99,7 +99,7 @@ SELECT
 
     CONCAT('meas.', unit_id) AS unit_id,
     load_table_id,
-    hash(measurement_group_id, row_discriminator) AS load_row_id,
+    CAST(hash(measurement_group_id, row_discriminator) >> 1 AS BIGINT) AS load_row_id,
     trace_id
 
 FROM expanded

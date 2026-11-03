@@ -1,6 +1,6 @@
 with lk_meas_labevents_clean AS (
 SELECT
-    hash(src.subject_id, src.charttime, src.hadm_id, src.itemid, src.load_row_id) AS measurement_id, 
+    CAST(hash(src.subject_id, src.charttime, src.hadm_id, src.itemid, src.load_row_id) >> 1 AS BIGINT) AS measurement_id, 
     src.subject_id AS subject_id,
     src.charttime AS start_datetime, -- measurement_datetime
     src.hadm_id AS hadm_id,
@@ -31,7 +31,7 @@ SELECT
     adm.hadm_id AS hadm_id,
     ROW_NUMBER() OVER (
         PARTITION BY src.trace_id
-        ORDER BY adm.start_datetime
+        ORDER BY adm.start_datetime, adm.hadm_id
     ) AS row_num
 FROM  
     lk_meas_labevents_clean AS src

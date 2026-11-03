@@ -13,20 +13,20 @@ models:
 
     columns:
       - name: procedure_occurrence_id
-        data_type: UBIGINT
+        data_type: INT
         description: TThe unique key given to a procedure record for a person.
         tests:
           - not_null
           - unique
 
       - name: person_id
-        data_type: UBIGINT
+        data_type: INT
         description: Persons identifier.
         tests:
           - not_null
 
       - name: procedure_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: The PROCEDURE_CONCEPT_ID field is recommended for primary use in analyses.
         tests:
           - not_null
@@ -64,11 +64,11 @@ models:
         description: If the quantity value is omitted, a single procedure is assumed. 
 
       - name: provider_id
-        data_type: UBIGINT
+        data_type: INT
         description: There will only be one provider per procedure record, choice has to be made.
 
       - name: visit_occurrence_id
-        data_type: UBIGINT
+        data_type: INT
         description: The visit during which the procedure occurred. 
 
       - name: visit_detail_id
@@ -80,7 +80,7 @@ models:
         description: Value from the source data representing the procedure that occurred.
 
       - name: procedure_source_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: Value from the source data representing the procedure that occurred.
 
       - name: modifier_source_value

@@ -12,11 +12,11 @@ SELECT
     --
     'micro.antibiotics' AS unit_id,
     src.load_table_id AS load_table_id,
-    hash(
+    CAST(hash(
         src.load_row_id,
         cr.order_provider_id,
         'micro.antibiotics'
-    ) AS load_row_id,
+    ) >> 1 AS BIGINT) AS load_row_id,
     src.trace_id AS trace_id -- trace_id for antibiotics, no grouping is needed
 FROM
     {{ ref("stg__microbiologyevents") }} AS src

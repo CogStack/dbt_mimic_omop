@@ -15,14 +15,14 @@ models:
 
     columns:
       - name: observation_period_id
-        data_type: UBIGINT
+        data_type: INT
         description: Unique identifier for each observation
         tests:
           - not_null
           - unique
 
       - name: person_id
-        data_type: UBIGINT
+        data_type: INT
         description: Indicates the person
           whose observation period is described by this record.
         tests:
@@ -41,7 +41,7 @@ models:
           - not_null
 
       - name: period_type_concept_id
-        data_type: UBIGINT
+        data_type: INT
         description: Identifies the type of the observation period.
         tests:
           - not_null

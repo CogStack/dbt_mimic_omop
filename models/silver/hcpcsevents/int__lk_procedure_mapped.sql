@@ -62,7 +62,7 @@ icd_mapped_deduped AS (
         COALESCE(lc.target_concept_id, 0) AS target_concept_id,
         ROW_NUMBER() OVER (
             PARTITION BY src.trace_id
-            ORDER BY lc.target_concept_id
+            ORDER BY lc.target_concept_id, lc.source_concept_id
         ) AS rn
     FROM lk_procedures_icd_clean src
     LEFT JOIN lk_icd_proc_concept lc
@@ -103,7 +103,8 @@ item_mapped_deduped AS (
         COALESCE(lc.target_concept_id, 0) AS target_concept_id,
         ROW_NUMBER() OVER (
             PARTITION BY src.trace_id
-            ORDER BY lc.target_concept_id
+            ORDER BY lc.target_concept_id, lc.source_concept_id,
+                src.itemid, src.start_datetime, src.end_datetime, src.quantity, src.provider_id
         ) AS rn
     FROM {{ ref("int__lk_proc_d_items_clean") }} src
     LEFT JOIN lk_itemid_concept lc

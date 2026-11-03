@@ -1,5 +1,7 @@
+-- each branch's hash id is only a sort key: rows are renumbered below so ids fit in 32 bits
+WITH lk_visit_detail_clean_hashed AS (
 SELECT
-    hash('transfers', src.subject_id, src.hadm_id, src.load_row_id) AS visit_detail_id,
+    CAST(hash('transfers', src.subject_id, src.hadm_id, src.load_row_id) >> 1 AS BIGINT) AS visit_detail_id,
     src.subject_id AS subject_id,
     src.hadm_id AS hadm_id,
     src.date_id AS date_id,
@@ -25,7 +27,7 @@ WHERE
 UNION ALL
 
 SELECT
-    hash('admissions', src.subject_id, src.hadm_id, src.load_row_id) AS visit_detail_id,
+    CAST(hash('admissions', src.subject_id, src.hadm_id, src.load_row_id) >> 1 AS BIGINT) AS visit_detail_id,
     src.subject_id AS subject_id,
     src.hadm_id AS hadm_id,
     CAST(src.start_datetime AS DATE) AS date_id,
@@ -50,7 +52,7 @@ WHERE
 UNION ALL
 
 SELECT
-    hash('services', src.subject_id, src.hadm_id, src.load_row_id) AS visit_detail_id,
+    CAST(hash('services', src.subject_id, src.hadm_id, src.load_row_id) >> 1 AS BIGINT) AS visit_detail_id,
     src.subject_id AS subject_id,
     src.hadm_id AS hadm_id,
     CAST(src.start_datetime AS DATE) AS date_id,
@@ -72,3 +74,9 @@ FROM
     {{ ref("int__lk_services_clean")}} AS src
 WHERE
     src.prev_service = src.lag_service -- ensure that the services sequence is still consistent after removing duplicates
+)
+
+SELECT * REPLACE (
+    CAST(ROW_NUMBER() OVER (ORDER BY visit_detail_id) AS INTEGER) AS visit_detail_id
+)
+FROM lk_visit_detail_clean_hashed

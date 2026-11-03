@@ -44,7 +44,7 @@ SELECT
     label                       AS label,
     category                    AS category,
     'microbiologyevents'        AS load_table_id,
-    hash(itemid) AS load_row_id,
+    CAST(hash(itemid) >> 1 AS BIGINT) AS load_row_id,
     trace_id                    AS trace_id
 FROM
     d_micro

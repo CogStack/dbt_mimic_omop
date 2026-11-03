@@ -42,6 +42,11 @@ models:
       admissions:
         int__lk_visit_clean:
           +materialized: table
+      measurement:
+        int__measurement:
+          +materialized: table
+        int__measurement_id_map:
+          +materialized: table
       # MIMIC-CXR imaging models
       mimic_cxr:
         +tags: ['mimic_cxr']

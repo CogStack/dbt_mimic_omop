@@ -11,7 +11,7 @@ SELECT
     --
     'admissions.insurance' AS unit_id,
     src.load_table_id AS load_table_id,
-    hash(src.load_row_id, 'admissions.insurance') AS load_row_id,
+    CAST(hash(src.load_row_id, 'admissions.insurance') >> 1 AS BIGINT) AS load_row_id,
     src.trace_id AS trace_id
 FROM
     {{ ref("stg__admissions") }} AS src
@@ -33,7 +33,7 @@ SELECT
     --
     'admissions.marital_status' AS unit_id,
     src.load_table_id AS load_table_id,
-    hash(src.load_row_id, 'admissions.marital_status') AS load_row_id,
+    CAST(hash(src.load_row_id, 'admissions.marital_status') >> 1 AS BIGINT) AS load_row_id,
     src.trace_id AS trace_id
 FROM
     {{ ref("stg__admissions") }} AS src
@@ -55,7 +55,7 @@ SELECT
     --
     'admissions.language' AS unit_id,
     src.load_table_id AS load_table_id,
-    hash(src.load_row_id, 'admissions.language') AS load_row_id,
+    CAST(hash(src.load_row_id, 'admissions.language') >> 1 AS BIGINT) AS load_row_id,
     src.trace_id AS trace_id
 FROM
     {{ ref("stg__admissions") }} AS src
@@ -77,11 +77,11 @@ SELECT
     --
     'drgcodes.description' AS unit_id,
     src.load_table_id AS load_table_id,
-    hash(
+    CAST(hash(
         adm.load_row_id,
         src.drg_code,
         src.description
-    ) AS load_row_id,
+    ) >> 1 AS BIGINT) AS load_row_id,
     src.trace_id AS trace_id
 FROM
     {{ ref("stg__drgcodes") }} AS src -- drg

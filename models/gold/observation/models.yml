@@ -15,20 +15,20 @@ models:
 
     columns:
       - name: observation_id
-        data_type: UBIGINT
+        data_type: INT
         description: Unique identifier for each observation
         tests:
           - not_null
           - unique
 
       - name: person_id
-        data_type: UBIGINT
+        data_type: INT
         description: Foreign key to the person table
         tests:
           - not_null
 
       - name: observation_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: Concept identifier for the observation
         tests:
           - not_null
@@ -58,7 +58,7 @@ models:
         description: String value of the observation, if applicable
 
       - name: value_as_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: Concept identifier for the value of the observation, if applicable
 
       - name: qualifier_concept_id
@@ -66,19 +66,19 @@ models:
         description: Concept identifier for any qualifiers associated with the observation
 
       - name: unit_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: Concept identifier for the unit of measurement, if applicable
 
       - name: provider_id
-        data_type: UBIGINT
+        data_type: INT
         description: Foreign key to the provider table
 
       - name: visit_occurrence_id
-        data_type: UBIGINT
+        data_type: INT
         description: Foreign key to the visit occurrence table
 
       - name: visit_detail_id
-        data_type: BIGINT
+        data_type: INT
         description: Foreign key to the visit detail table
 
       - name: observation_source_value
@@ -86,7 +86,7 @@ models:
         description: Source value for the observation
 
       - name: observation_source_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: Concept identifier for the source of the observation
 
       - name: unit_source_value

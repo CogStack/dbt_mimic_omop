@@ -16,7 +16,7 @@ SELECT
     language                            AS language,
 	hospital_expire_flag                AS hospital_expire_flag,
 	'admissions'                        AS load_table_id,
-	hash(hadm_id, subject_id) AS load_row_id,
+	CAST(hash(hadm_id, subject_id) >> 1 AS BIGINT) AS load_row_id,
 	json_object(
         'subject_id', subject_id,
         'hadm_id', hadm_id

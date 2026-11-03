@@ -3,7 +3,7 @@ SELECT
     adm.hadm_id AS hadm_id,
     ROW_NUMBER() OVER (
         PARTITION BY src.trace_id_ab
-        ORDER BY adm.start_datetime
+        ORDER BY adm.start_datetime, adm.hadm_id
     ) AS row_num
 FROM  
     {{ ref("int__lk_micro_cross_ref") }} AS src

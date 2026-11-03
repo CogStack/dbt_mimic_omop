@@ -7,7 +7,7 @@ careunit::VARCHAR      AS careunit,
 intime::TIMESTAMP      AS intime,
 outtime::TIMESTAMP     AS outtime,
 'transfers'            AS load_table_id,
-hash(subject_id, hadm_id, transfer_id)       AS load_row_id,
+CAST(hash(subject_id, hadm_id, transfer_id) >> 1 AS BIGINT)       AS load_row_id,
 json_object(
     'subject_id', subject_id,
     'hadm_id', hadm_id,

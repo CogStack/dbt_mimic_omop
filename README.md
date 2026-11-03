@@ -186,13 +186,25 @@ To run only the MIMIC-CXR imaging models:
 dbt run --select tag:mimic_cxr
 ```
 
+### 7. Export the OMOP CDM
+
+Copy every table in the `omop_gold` schema (clinical and vocabulary tables) into a standalone DuckDB file, under the schema `omopv5`:
+
+```
+python export_omop_gold.py mimic_iv.duckdb
+```
+
+The script will not overwrite an existing file.
+
 ---
 
 ## Data Model Overview
 
 ### OMOP CDM Tables
 
-The pipeline produces the standard OMOP CDM clinical tables: `person`, `visit_occurrence`, `visit_detail`, `condition_occurrence`, `procedure_occurrence`, `drug_exposure`, `measurement`, `observation`, `note`, `note_nlp`, and supporting tables.
+The pipeline produces the standard OMOP CDM clinical tables: `person`, `visit_occurrence`, `visit_detail`, `condition_occurrence`, `procedure_occurrence`, `drug_exposure`, `measurement`, `observation`, `note`, `note_nlp`, and supporting tables, plus the standardized vocabulary tables (`concept`, `concept_relationship`, `concept_ancestor`, `concept_synonym`, `concept_class`, `domain`, `relationship`, `vocabulary`, `drug_strength`, `source_to_concept_map`).
+
+Identifiers are 32-bit integers, as in the OMOP CDM DDL. `person_id` is the MIMIC `subject_id`. Other ids are numbered in a fixed order, so rerunning the pipeline on the same data gives the same ids. `note_nlp_id` is still a 64-bit hash.
 
 ### MI-CDM Imaging Extension
 

@@ -13,7 +13,7 @@ models:
 
     columns:
       - name: care_site_id
-        data_type: UBIGINT
+        data_type: INT
         description: Unique identifier for each care site in the dataset.
         tests:
           - not_null
@@ -24,7 +24,7 @@ models:
         description: Name of the care site. 
 
       - name: place_of_service_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: High level characterization of type of care site based on OMOP concepts.
 
       - name: location_id

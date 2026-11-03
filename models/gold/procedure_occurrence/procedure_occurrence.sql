@@ -1,5 +1,7 @@
+-- each branch's hash id is only a sort key: rows are renumbered below so ids fit in 32 bits
+WITH procedure_occurrence_hashed AS (
 SELECT
-    hash(src.load_table_id, src.load_row_id, src.unit_id) AS procedure_occurrence_id,
+    CAST(hash(src.load_table_id, src.load_row_id, src.unit_id) >> 1 AS BIGINT) AS procedure_occurrence_id,
     per.person_id AS person_id,
     src.target_concept_id AS procedure_concept_id,
     CAST(src.start_datetime AS DATE) AS procedure_date,
@@ -33,7 +35,7 @@ WHERE
 UNION ALL
 
 SELECT
-    hash(per.person_id, src.target_concept_id, vis.visit_occurrence_id, src.start_datetime) AS procedure_occurrence_id,
+    CAST(hash(per.person_id, src.target_concept_id, vis.visit_occurrence_id, src.start_datetime) >> 1 AS BIGINT) AS procedure_occurrence_id,
     per.person_id AS person_id,
     src.target_concept_id AS procedure_concept_id,
     CAST(src.start_datetime AS DATE) AS procedure_date,
@@ -67,7 +69,7 @@ WHERE
 UNION ALL
 
 SELECT
-    hash(per.person_id, src.target_concept_id, vis.visit_occurrence_id, src.start_datetime) AS procedure_occurrence_id,
+    CAST(hash(per.person_id, src.target_concept_id, vis.visit_occurrence_id, src.start_datetime) >> 1 AS BIGINT) AS procedure_occurrence_id,
     per.person_id AS person_id,
     src.target_concept_id AS procedure_concept_id,
     CAST(src.start_datetime AS DATE) AS procedure_date,
@@ -102,12 +104,12 @@ WHERE
 UNION ALL
 
 SELECT
-    hash(
+    CAST(hash(
         per.person_id,
         vis.visit_occurrence_id,
         src.target_concept_id,
         src.start_datetime
-    ) AS procedure_occurrence_id,
+    ) >> 1 AS BIGINT) AS procedure_occurrence_id,
     per.person_id AS person_id,
     src.target_concept_id AS procedure_concept_id,
     CAST(src.start_datetime AS DATE) AS procedure_date,
@@ -140,5 +142,11 @@ QUALIFY
             src.target_concept_id,
             src.start_datetime,
             src.type_concept_id
-        ORDER BY src.trace_id
+        ORDER BY src.trace_id, src.load_row_id
     ) = 1
+)
+
+SELECT * REPLACE (
+    CAST(ROW_NUMBER() OVER (ORDER BY procedure_occurrence_id) AS INTEGER) AS procedure_occurrence_id
+)
+FROM procedure_occurrence_hashed

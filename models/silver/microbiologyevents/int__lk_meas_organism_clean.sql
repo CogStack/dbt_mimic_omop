@@ -12,11 +12,11 @@ SELECT DISTINCT
     --
     'micro.organism' AS unit_id,
     src.load_table_id AS load_table_id,
-    hash(
+    CAST(hash(
         src.load_row_id,
         cr.order_provider_id,
         'micro.organism'
-    ) AS load_row_id,
+    ) >> 1 AS BIGINT) AS load_row_id,
     cr.trace_id_org AS trace_id -- trace_id for test-organism
 FROM
     {{ ref("stg__microbiologyevents") }} AS src

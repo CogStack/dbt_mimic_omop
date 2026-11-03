@@ -16,6 +16,6 @@ select
     ref_range_lower                     AS ref_range_lower,
     ref_range_upper                     AS ref_range_upper,
     'labevents'                         AS load_table_id,
-    hash(labevent_id)                   AS load_row_id,
+    CAST(hash(labevent_id) >> 1 AS BIGINT)                   AS load_row_id,
     json_object('labevent_id', labevent_id)::text AS trace_id
 from {{ source("mimic", "labevents") }}

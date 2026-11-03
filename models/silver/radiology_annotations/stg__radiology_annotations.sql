@@ -28,7 +28,7 @@ FROM (
         nlp_context_similarity,
         nlp_ontologies,
         timestamp,
-        hash(nlp_id, meta_note_id) AS load_row_id,
+        CAST(hash(nlp_id, meta_note_id) >> 1 AS BIGINT) AS load_row_id,
 
         ROW_NUMBER() OVER (
             PARTITION BY nlp_id, meta_note_id

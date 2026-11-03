@@ -8,7 +8,7 @@ SELECT
     storetime AS storetime,
     text AS text,
     'discharge' AS load_table_id,
-    hash(note_id, subject_id, hadm_id) AS load_row_id,
+    CAST(hash(note_id, subject_id, hadm_id) >> 1 AS BIGINT) AS load_row_id,
     json_object('subject_id', subject_id, 'hadm_id', hadm_id)::text AS trace_id
 FROM
     {{ source('mimic', 'discharge') }}

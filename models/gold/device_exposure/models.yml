@@ -15,20 +15,20 @@ models:
 
     columns:
       - name: device_exposure_id
-        data_type: UBIGINT
+        data_type: INT
         description: The unique key given to records of device exposures 
         tests:
           - not_null
           - unique
 
       - name: person_id
-        data_type: UBIGINT
+        data_type: INT
         description: A foreign key to the person table.
         tests:
           - not_null
 
       - name: device_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: The concept identifier for the device exposed to the person. 
         tests:
           - not_null
@@ -76,11 +76,11 @@ models:
         description: The number of devices exposed to the person.
 
       - name: provider_id
-        data_type: UBIGINT
+        data_type: INT
         description: The provider associated with the device exposure.
 
       - name: visit_occurrence_id 
-        data_type: UBIGINT
+        data_type: INT
         description: A foreign key to the visit occurrence during which the 
           device exposure occurred.
 
@@ -94,12 +94,12 @@ models:
         description: Vertabim value of device exposure that occurred.
 
       - name: device_source_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: The source concept identifier for the device exposed to 
           the person.
 
       - name: unit_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: The concept identifier for the unit of the device exposure.
 
       - name: unit_source_value
@@ -107,6 +107,6 @@ models:
         description: The source value for the unit of the device exposure.
 
       - name: unit_source_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: The source concept identifier for the unit of the device 
           exposure.

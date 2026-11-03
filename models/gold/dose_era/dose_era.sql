@@ -21,9 +21,9 @@ SELECT
     ds.denominator_unit_concept_id AS denominator_unit_concept_id,
     c.concept_class_id AS concept_class_id
 FROM {{ ref('drug_exposure') }} AS de
-INNER JOIN {{ source('athena_vocabulary', 'DRUG_STRENGTH') }} AS ds
+INNER JOIN {{ ref('drug_strength') }} AS ds
     ON de.drug_concept_id = ds.drug_concept_id
-INNER JOIN {{ source('athena_vocabulary', 'CONCEPT_ANCESTOR') }} AS ca
+INNER JOIN {{ ref('concept_ancestor') }} AS ca
     ON de.drug_concept_id = ca.descendant_concept_id
     AND ds.ingredient_concept_id = ca.ancestor_concept_id
 LEFT JOIN {{ ref('stg__voc_concept') }} AS c
@@ -173,7 +173,7 @@ SELECT
     -1 AS event_type,
     ROW_NUMBER() OVER (
         PARTITION BY person_id, drug_concept_id, unit_concept_id, CAST(dose_value AS INTEGER)
-        ORDER BY drug_exposure_start_date
+        ORDER BY drug_exposure_start_date, dose_value
     ) AS start_ordinal
 FROM tmp_cteDoseTarget
 
@@ -200,12 +200,12 @@ SELECT
     event_type AS event_type,
     MAX(start_ordinal) OVER (
         PARTITION BY person_id, drug_concept_id, unit_concept_id, CAST(dose_value AS INTEGER) -- double-check if it is a valid cast
-        ORDER BY event_date, event_type
+        ORDER BY event_date, event_type, dose_value
         ROWS UNBOUNDED PRECEDING
     ) AS start_ordinal,
     ROW_NUMBER() OVER (
         PARTITION BY person_id, drug_concept_id, unit_concept_id, CAST(dose_value AS INTEGER)
-        ORDER BY event_date, event_type
+        ORDER BY event_date, event_type, dose_value
     ) AS overall_ord
 FROM tmp_cteDoseEndDates_rawdata
 ),
@@ -247,12 +247,12 @@ GROUP BY
 )
 
 SELECT
-    hash(
+    CAST(ROW_NUMBER() OVER (ORDER BY hash(
         person_id, 
         drug_concept_id, 
         unit_concept_id, 
         dose_value, 
-        drug_era_end_date) AS dose_era_id,
+        drug_era_end_date)) AS INTEGER) AS dose_era_id,
     person_id AS person_id,
     drug_concept_id AS drug_concept_id,
     unit_concept_id AS unit_concept_id,

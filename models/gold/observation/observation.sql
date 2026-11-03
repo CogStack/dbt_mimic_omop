@@ -1,5 +1,7 @@
+-- each branch's hash id is only a sort key: rows are renumbered below so ids fit in 32 bits
+WITH observation_hashed AS (
 SELECT
-    hash(per.person_id, src.load_table_id, src.load_row_id) AS observation_id,
+    CAST(hash(per.person_id, src.load_table_id, src.load_row_id) >> 1 AS BIGINT) AS observation_id,
     per.person_id AS person_id,
     src.target_concept_id AS observation_concept_id,
     CAST(src.start_datetime AS DATE) AS observation_date,
@@ -15,7 +17,7 @@ SELECT
     NULL AS unit_concept_id,
     prov.provider_id AS provider_id,
     vis.visit_occurrence_id AS visit_occurrence_id,
-    CAST(NULL AS BIGINT) AS visit_detail_id,
+    CAST(NULL AS INTEGER) AS visit_detail_id,
     src.source_code AS observation_source_value,
     src.source_concept_id AS observation_source_concept_id,
     NULL AS unit_source_value,
@@ -56,7 +58,7 @@ SELECT
     src.unit_concept_id AS unit_concept_id,
     prov.provider_id AS provider_id,
     vis.visit_occurrence_id AS visit_occurrence_id,
-    CAST(NULL AS BIGINT) AS visit_detail_id,
+    CAST(NULL AS INTEGER) AS visit_detail_id,
     src.source_code AS observation_source_value,
     src.source_concept_id AS observation_source_concept_id,
     src.unit_source_value AS unit_source_value,
@@ -81,7 +83,7 @@ WHERE
 UNION ALL
 
 SELECT
-    hash(per.person_id, src.load_table_id, src.load_row_id) AS observation_id,
+    CAST(hash(per.person_id, src.load_table_id, src.load_row_id) >> 1 AS BIGINT) AS observation_id,
     per.person_id AS person_id,
     src.target_concept_id AS observation_concept_id,
     CAST(src.start_datetime AS DATE) AS observation_date,
@@ -94,7 +96,7 @@ SELECT
     NULL AS unit_concept_id,
     prov.provider_id AS provider_id,
     vis.visit_occurrence_id AS visit_occurrence_id,
-    CAST(NULL AS BIGINT) AS visit_detail_id,
+    CAST(NULL AS INTEGER) AS visit_detail_id,
     src.source_code AS observation_source_value,
     src.source_concept_id AS observation_source_concept_id,
     NULL AS unit_source_value,
@@ -119,7 +121,7 @@ WHERE
 UNION ALL
 
 SELECT
-    hash(per.person_id, src.load_table_id, src.load_row_id) AS observation_id,
+    CAST(hash(per.person_id, src.load_table_id, src.load_row_id) >> 1 AS BIGINT) AS observation_id,
     per.person_id AS person_id,
     src.target_concept_id AS observation_concept_id, -- to rename fields in *_mapped
     CAST(src.start_datetime AS DATE) AS observation_date,
@@ -132,7 +134,7 @@ SELECT
     NULL AS unit_concept_id,
     prov.provider_id AS provider_id,
     vis.visit_occurrence_id AS visit_occurrence_id,
-    CAST(NULL AS BIGINT) AS visit_detail_id,
+    CAST(NULL AS INTEGER) AS visit_detail_id,
     src.source_code AS observation_source_value,
     src.source_concept_id AS observation_source_concept_id,
     NULL AS unit_source_value,
@@ -157,7 +159,7 @@ WHERE
 UNION ALL
 
 SELECT
-    hash(per.person_id, src.load_table_id, src.load_row_id) AS observation_id,
+    CAST(hash(per.person_id, src.load_table_id, src.load_row_id) >> 1 AS BIGINT) AS observation_id,
     per.person_id AS person_id,
     src.target_concept_id AS observation_concept_id,
     CAST(src.start_datetime AS DATE) AS observation_date,
@@ -170,7 +172,7 @@ SELECT
     NULL AS unit_concept_id,
     prov.provider_id AS provider_id,
     vis.visit_occurrence_id AS visit_occurrence_id,
-    CAST(NULL AS BIGINT) AS visit_detail_id,
+    CAST(NULL AS INTEGER) AS visit_detail_id,
     src.source_code AS observation_source_value,
     src.source_concept_id AS observation_source_concept_id,
     NULL AS unit_source_value,
@@ -193,3 +195,9 @@ LEFT JOIN
         ON prov.provider_source_value = CAST(src.provider_id AS TEXT)
 WHERE
     src.target_domain_id = 'Observation'
+)
+
+SELECT * REPLACE (
+    CAST(ROW_NUMBER() OVER (ORDER BY observation_id) AS INTEGER) AS observation_id
+)
+FROM observation_hashed

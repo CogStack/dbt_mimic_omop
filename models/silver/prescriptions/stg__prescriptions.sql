@@ -19,7 +19,7 @@ WITH tmp_prescriptions AS (
         doses_per_24_hrs                    AS doses_per_24_hrs,
         route                               AS route,
         'prescriptions'                     AS load_table_id,
-        hash(
+        CAST(hash(
             subject_id,
             hadm_id,
             pharmacy_id,
@@ -38,7 +38,7 @@ WITH tmp_prescriptions AS (
             form_unit_disp,
             doses_per_24_hrs,
             route
-        ) AS load_row_id,
+        ) >> 1 AS BIGINT) AS load_row_id,
         json_object(
             'subject_id', subject_id,
             'hadm_id', hadm_id,

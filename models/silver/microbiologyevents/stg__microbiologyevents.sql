@@ -20,7 +20,7 @@ SELECT
     dilution_value              AS dilution_value,
     interpretation              AS interpretation,
     'microbiologyevents'        AS load_table_id,
-    hash(microevent_id, subject_id, hadm_id) AS load_row_id,
+    CAST(hash(microevent_id, subject_id, hadm_id) >> 1 AS BIGINT) AS load_row_id,
     json_object('subject_id', subject_id, 'hadm_id', hadm_id, 'microevent_id', microevent_id)::text AS trace_id
 FROM
     {{ source("mimic", "microbiologyevents") }} AS src

@@ -29,7 +29,7 @@ SELECT
     "Support Devices"::DOUBLE           AS support_devices,
     -- Traceability
     'mimic_cxr_chexpert'                AS load_table_id,
-    hash(study_id)                      AS load_row_id,
+    CAST(hash(study_id) >> 1 AS BIGINT)                      AS load_row_id,
     json_object(
         'study_id', study_id,
         'subject_id', subject_id

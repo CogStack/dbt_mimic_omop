@@ -25,7 +25,7 @@ SELECT
         ELSE NULL
     END AS discharged_to_concept_id,
     src.preceding_visit_detail_id AS preceding_visit_detail_id,
-    CAST(NULL AS UBIGINT) AS parent_visit_detail_id,
+    CAST(NULL AS INTEGER) AS parent_visit_detail_id,
     vis.visit_occurrence_id AS visit_occurrence_id
 FROM
     {{ ref("int__lk_visit_detail_prev_next") }} AS src

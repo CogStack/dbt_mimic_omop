@@ -3,6 +3,8 @@
     ref("stg__caregiver"),
 ] %}
 
+-- each branch's hash id is only a sort key: rows are renumbered below so ids fit in 32 bits
+WITH provider_hashed AS (
 {% for rel in relationship_sources %}
     SELECT
         CAST(hash(provider_id) >> 1 AS BIGINT) AS provider_id,
@@ -25,3 +27,9 @@
         union all
     {% endif %}
 {% endfor %}
+)
+
+SELECT * REPLACE (
+    CAST(ROW_NUMBER() OVER (ORDER BY provider_id) AS INTEGER) AS provider_id
+)
+FROM provider_hashed

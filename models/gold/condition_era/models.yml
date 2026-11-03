@@ -12,7 +12,7 @@ models:
 
     columns:
       - name: condition_era_id
-        data_type: BIGINT
+        data_type: INT
         description: >
           A unique identifier for the condition era.
         tests:
@@ -27,7 +27,7 @@ models:
           - not_null
 
       - name: condition_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: >
           The concept identifier for the condition.
         tests:

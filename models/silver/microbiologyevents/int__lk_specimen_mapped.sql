@@ -19,7 +19,7 @@ INNER JOIN
 )
 
 SELECT
-    CAST(hash(src.subject_id, src.start_datetime, src.end_datetime, src.spec_itemid, src.provider_id) >> 1 AS BIGINT) AS specimen_id,
+    CAST(ROW_NUMBER() OVER (ORDER BY hash(src.subject_id, src.start_datetime, src.end_datetime, src.spec_itemid, src.provider_id)) AS INTEGER) AS specimen_id,
     src.subject_id AS subject_id,
     COALESCE(src.hadm_id, hadm.hadm_id) AS hadm_id,
     CAST(src.start_datetime AS DATE) AS date_id,

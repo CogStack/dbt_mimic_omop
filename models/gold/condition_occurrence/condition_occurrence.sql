@@ -1,3 +1,5 @@
+-- each branch's hash id is only a sort key: rows are renumbered below so ids fit in 32 bits
+WITH condition_occurrence_hashed AS (
 SELECT
     CAST(hash(src.load_table_id, src.load_row_id, src.trace_id, src.unit_id) >> 1 AS BIGINT) AS condition_occurrence_id,
     per.person_id AS person_id,
@@ -97,3 +99,9 @@ LEFT JOIN
         ON prov.provider_source_value = CAST(src.provider_id AS TEXT)
 WHERE
     src.target_domain_id = 'Condition'
+)
+
+SELECT * REPLACE (
+    CAST(ROW_NUMBER() OVER (ORDER BY condition_occurrence_id) AS INTEGER) AS condition_occurrence_id
+)
+FROM condition_occurrence_hashed

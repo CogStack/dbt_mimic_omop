@@ -12,7 +12,7 @@ models:
 
     columns:
       - name: visit_detail_id
-        data_type: BIGINT
+        data_type: INT
         description: Unique interactions between a person and the health care system. 
         tests:
           - not_null
@@ -25,7 +25,7 @@ models:
           - not_null
 
       - name: visit_detail_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: This field contains a concept id representing the kind of visit.
         tests:
           - not_null
@@ -57,11 +57,11 @@ models:
           - not_null
 
       - name: provider_id
-        data_type: BIGINT
+        data_type: INT
         description: There will only be one provider per visit record, choose has to be made.
 
       - name: care_site_id
-        data_type: BIGINT
+        data_type: INT
         description: Care site where the visit took place.
 
       - name: visit_detail_source_value
@@ -69,11 +69,11 @@ models:
         description: Vertabim source value for the kind of visit.
 
       - name: visit_detail_source_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: Concept id representing the source value here. 
 
       - name: admitted_from_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: Use this field to determine where the patient was admitted from.
 
       - name: admitted_from_source_value
@@ -81,7 +81,7 @@ models:
         description: The source value for where the patient was admitted from.
 
       - name: discharged_to_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: Use this field to determine where the patient was discharged to after a visit. 
 
       - name: discharged_to_source_value
@@ -89,15 +89,15 @@ models:
         description: The source value for where the patient was discharged to after a visit.
 
       - name: preceding_visit_detail_id
-        data_type: BIGINT
+        data_type: INT
         description: Use this field to find the visit detail that occurred for the person prior to the given visit detail record.
 
       - name: parent_visit_detail_id
-        data_type: BIGINT
+        data_type: INT
         description: Use this field to find the visit detail that subsumes the given visit detail record. 
 
       - name: visit_occurrence_id
-        data_type: BIGINT
+        data_type: INT
         description: Use this field to link the VISIT_DETAIL record to its VISIT_OCCURRENCE.
         tests:
           - not_null

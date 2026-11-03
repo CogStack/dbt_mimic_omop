@@ -14,7 +14,7 @@ models:
 
     columns:
       - name: measurement_id
-        data_type: BIGINT
+        data_type: INT
         description: The unique key given to a Measurement record for a Person. 
         tests:
           - not_null
@@ -27,7 +27,7 @@ models:
           - not_null
 
       - name: measurement_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: The concept identifier for the type of measurement.
         tests:
           - not_null
@@ -53,7 +53,7 @@ models:
           - not_null
 
       - name: operator_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: The concept identifier for the mathematical operator used in the measurement.
 
       - name: value_as_number
@@ -61,11 +61,11 @@ models:
         description: The value of the measurement as a number.
 
       - name: value_as_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: The concept identifier for the value of the measurement when it is categorical.
 
       - name: unit_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: The concept identifier for the unit of measure for the value_as_number.
 
       - name: range_low
@@ -77,11 +77,11 @@ models:
         description: The upper bound of the normal range for the measurement.
 
       - name: provider_id
-        data_type: BIGINT
+        data_type: INT
         description: The identifier of the provider who performed the measurement.
 
       - name: visit_occurrence_id
-        data_type: BIGINT
+        data_type: INT
         description: The identifier of the visit during which the measurement was taken.
 
       - name: visit_detail_id
@@ -93,7 +93,7 @@ models:
         description: The source value for the measurement type.
 
       - name: measurement_source_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: The concept identifier for the source of the measurement type.
 
       - name: unit_source_value
@@ -101,7 +101,7 @@ models:
         description: The source value for the unit of measure.
 
       - name: unit_source_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: If unit_source_value is in OMOP supported vocabulary put the concept id for it here.
 
       - name: value_source_value

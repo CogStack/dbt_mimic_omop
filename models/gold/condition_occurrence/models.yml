@@ -13,7 +13,7 @@ models:
 
     columns:
       - name: condition_occurrence_id
-        data_type: BIGINT
+        data_type: INT
         description: The unique key given to a condition record for a person.
         tests:
           - not_null
@@ -26,7 +26,7 @@ models:
           - not_null
 
       - name: condition_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: The CONDITION_CONCEPT_ID field is recommended for primary use in analyses.
         tests:
           - not_null
@@ -64,11 +64,11 @@ models:
         description: Why a Condition is no longer valid with respect to the purpose within the source data. 
 
       - name: provider_id
-        data_type: BIGINT
+        data_type: INT
         description: There will only be one provider per condition record, choice has to be made.
 
       - name: visit_occurrence_id
-        data_type: BIGINT
+        data_type: INT
         description: The visit during which the condition occurred. 
 
       - name: visit_detail_id
@@ -80,7 +80,7 @@ models:
         description: Value from the source data representing the condition that occurred.
 
       - name: condition_source_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: Value from the source data representing the condition that occurred.
 
       - name: condition_status_source_value

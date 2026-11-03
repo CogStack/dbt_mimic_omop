@@ -61,7 +61,7 @@ notes_with_visit AS (
 
 
 SELECT
-    CAST(hash(nwv.raw_note_id) >> 1 AS BIGINT) AS note_id,
+    ids.note_id AS note_id,
     nwv.person_id,
     src.charttime::date AS note_date,
     src.charttime AS note_datetime,
@@ -80,4 +80,6 @@ SELECT
 FROM notes_with_visit nwv
 JOIN notes_src src
     ON nwv.raw_note_id = src.note_id
+JOIN {{ ref('int__note_id_map') }} ids
+    ON ids.raw_note_id = nwv.raw_note_id
 WHERE nwv.rn = 1

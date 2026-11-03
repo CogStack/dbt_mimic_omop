@@ -44,7 +44,7 @@ mapped_concepts AS (
 
 SELECT
     CAST(hash(src.meta_note_id, src.nlp_id) >> 1 AS BIGINT) AS note_nlp_id,
-    CAST(hash(src.meta_note_id) >> 1 AS BIGINT)             AS note_id,
+    ids.note_id                       AS note_id,
     0                                 AS section_concept_id,
 
     SUBSTRING(
@@ -85,5 +85,7 @@ SELECT
 FROM all_annotations src
 LEFT JOIN mapped_concepts mc
     ON src.nlp_cui = mc.concept_code
+LEFT JOIN {{ ref('int__note_id_map') }} ids
+    ON ids.raw_note_id = src.meta_note_id
 LEFT JOIN {{ ref('note') }} n
-    ON CAST(hash(src.meta_note_id) >> 1 AS BIGINT) = n.note_id
+    ON n.note_id = ids.note_id

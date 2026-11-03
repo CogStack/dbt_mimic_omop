@@ -37,7 +37,7 @@ models:
           - not_null
 
       - name: fact_id_1
-        data_type: BIGINT
+        data_type: INT
         description: >
           The ID of the first fact in the relationship. This is a foreign key to the 
           primary key of the table identified by domain_concept_id_1.
@@ -45,7 +45,7 @@ models:
           - not_null
 
       - name: fact_id_2
-        data_type: BIGINT
+        data_type: INT
         description: >
           The ID of the second fact in the relationship. This is a foreign key to the 
           primary key of the table identified by domain_concept_id_2.

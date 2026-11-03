@@ -1,3 +1,5 @@
+-- each branch's hash id is only a sort key: rows are renumbered below so ids fit in 32 bits
+WITH device_exposure_hashed AS (
 SELECT
     CAST(hash(per.person_id, src.load_table_id, src.load_row_id) >> 1 AS BIGINT) AS device_exposure_id,
     per.person_id AS person_id,
@@ -73,3 +75,9 @@ LEFT JOIN
         ON prov.provider_source_value = CAST(src.provider_id AS TEXT)
 WHERE
     src.target_domain_id = 'Device'
+)
+
+SELECT * REPLACE (
+    CAST(ROW_NUMBER() OVER (ORDER BY device_exposure_id) AS INTEGER) AS device_exposure_id
+)
+FROM device_exposure_hashed

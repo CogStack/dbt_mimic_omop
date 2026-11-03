@@ -14,7 +14,7 @@ models:
 
     columns:
       - name: drug_exposure_id
-        data_type: BIGINT
+        data_type: INT
         description: The unique key given to records of drug dispensings 
         tests:
           - not_null
@@ -27,7 +27,7 @@ models:
           - not_null
 
       - name: drug_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: The concept identifier for the drug administered, 
           prescribed, or dispensed.
         tests:
@@ -86,7 +86,7 @@ models:
           taken or administered.
 
       - name: route_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: The concept identifier for the route of administration.
 
       - name: lot_number
@@ -94,15 +94,15 @@ models:
         description: The lot number of the drug product.
 
       - name: provider_id
-        data_type: BIGINT
+        data_type: INT
         description: A foreign key to the provider table.
 
       - name: visit_occurrence_id
-        data_type: BIGINT
+        data_type: INT
         description: A foreign key to the visit occurrence table.
 
       - name: visit_detail_id
-        data_type: BIGINT
+        data_type: INT
         description: A foreign key to the visit detail table.
 
       - name: drug_source_value
@@ -111,7 +111,7 @@ models:
           was derived.
 
       - name: drug_source_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: The concept identifier for the source code of the drug.
 
       - name: route_source_value

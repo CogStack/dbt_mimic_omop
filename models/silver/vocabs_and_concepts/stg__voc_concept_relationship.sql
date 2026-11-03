@@ -1,6 +1,6 @@
 select
-    vr.concept_id_1,
-    vr.concept_id_2,
+    cast(vr.concept_id_1 as integer) as concept_id_1,
+    cast(vr.concept_id_2 as integer) as concept_id_2,
     vr.relationship_id,
     try_cast(
         strptime(cast(vr.valid_start_date as varchar), '%Y%m%d') as date

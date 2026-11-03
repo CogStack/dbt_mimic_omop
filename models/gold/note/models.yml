@@ -13,7 +13,7 @@ models:
 
     columns:
       - name: note_id
-        data_type: BIGINT
+        data_type: INT
         description: Unique identifier for each note
         tests:
           - not_null
@@ -74,11 +74,11 @@ models:
         description: The Provider who wrote the note.
 
       - name: visit_occurrence_id
-        data_type: BIGINT
+        data_type: INT
         description: The Visit during which the note was written. 
 
       - name: visit_detail_id
-        data_type: BIGINT
+        data_type: INT
         description: The Visit Detail during which the note was written. 
 
       - name: note_source_value

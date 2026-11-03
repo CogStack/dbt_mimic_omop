@@ -45,13 +45,13 @@ models:
         description: Datetime of birth of the person, if available.
 
       - name: race_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: Concept ID representing the race or ethnic background of the person
         tests:
           - not_null
 
       - name: ethnicity_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: Concept ID representing ethnicity as defined by the US OMB standard.
         tests:
           - not_null
@@ -85,7 +85,7 @@ models:
         description: Race of the person as recorded in the source data.
 
       - name: race_source_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: Concept ID representing the source-coded race, if applicable.
 
       - name: ethnicity_source_value
@@ -93,6 +93,6 @@ models:
         description: Ethnicity of the person as recorded in the source data.
 
       - name: ethnicity_source_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: Concept ID representing the source-coded ethnicity, if applicable.
   

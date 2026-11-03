@@ -1,3 +1,5 @@
+-- each branch's hash id is only a sort key: rows are renumbered below so ids fit in 32 bits
+WITH procedure_occurrence_hashed AS (
 SELECT
     CAST(hash(src.load_table_id, src.load_row_id, src.unit_id) >> 1 AS BIGINT) AS procedure_occurrence_id,
     per.person_id AS person_id,
@@ -142,3 +144,9 @@ QUALIFY
             src.type_concept_id
         ORDER BY src.trace_id
     ) = 1
+)
+
+SELECT * REPLACE (
+    CAST(ROW_NUMBER() OVER (ORDER BY procedure_occurrence_id) AS INTEGER) AS procedure_occurrence_id
+)
+FROM procedure_occurrence_hashed

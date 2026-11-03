@@ -1,18 +1,25 @@
+-- measurement ids in the silver models are 64-bit hashes; int__measurement_id_map gives their 32-bit ids
 WITH spec_org AS (
     SELECT
         spec.specimen_id,
-        org.measurement_id
+        ids.measurement_id
     FROM {{ ref('int__lk_specimen_mapped') }} spec
     JOIN {{ ref('int__lk_meas_organism_mapped') }} org
         ON org.trace_id_spec = spec.trace_id
+    JOIN {{ ref('int__measurement_id_map') }} ids
+        ON ids.hash_id = org.measurement_id
 ),
 org_ab AS (
     SELECT
-        org.measurement_id AS org_measurement_id,
-        ab.measurement_id AS ab_measurement_id
+        org_ids.measurement_id AS org_measurement_id,
+        ab_ids.measurement_id AS ab_measurement_id
     FROM {{ ref('int__lk_meas_organism_mapped') }} org
     JOIN {{ ref('int__lk_meas_ab_mapped') }} ab
         ON ab.trace_id_org = org.trace_id
+    JOIN {{ ref('int__measurement_id_map') }} org_ids
+        ON org_ids.hash_id = org.measurement_id
+    JOIN {{ ref('int__measurement_id_map') }} ab_ids
+        ON ab_ids.hash_id = ab.measurement_id
 )
 
 SELECT

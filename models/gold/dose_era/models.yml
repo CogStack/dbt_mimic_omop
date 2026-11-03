@@ -12,7 +12,7 @@ models:
 
     columns:
       - name: dose_era_id
-        data_type: BIGINT
+        data_type: INT
         description: >
           A unique identifier for the dose era.
         tests:
@@ -27,14 +27,14 @@ models:
           - not_null
 
       - name: drug_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: >
           The concept identifier for the drug.
         tests:
           - not_null
 
       - name: unit_concept_id
-        data_type: BIGINT
+        data_type: INT
         description: >
           The concept identifier for the unit of measurement for the dose.
         tests:

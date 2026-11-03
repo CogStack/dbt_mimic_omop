@@ -21,9 +21,9 @@ SELECT
     ds.denominator_unit_concept_id AS denominator_unit_concept_id,
     c.concept_class_id AS concept_class_id
 FROM {{ ref('drug_exposure') }} AS de
-INNER JOIN {{ source('athena_vocabulary', 'DRUG_STRENGTH') }} AS ds
+INNER JOIN {{ ref('drug_strength') }} AS ds
     ON de.drug_concept_id = ds.drug_concept_id
-INNER JOIN {{ source('athena_vocabulary', 'CONCEPT_ANCESTOR') }} AS ca
+INNER JOIN {{ ref('concept_ancestor') }} AS ca
     ON de.drug_concept_id = ca.descendant_concept_id
     AND ds.ingredient_concept_id = ca.ancestor_concept_id
 LEFT JOIN {{ ref('stg__voc_concept') }} AS c
@@ -247,12 +247,12 @@ GROUP BY
 )
 
 SELECT
-    CAST(hash(
+    CAST(ROW_NUMBER() OVER (ORDER BY hash(
         person_id, 
         drug_concept_id, 
         unit_concept_id, 
         dose_value, 
-        drug_era_end_date) >> 1 AS BIGINT) AS dose_era_id,
+        drug_era_end_date)) AS INTEGER) AS dose_era_id,
     person_id AS person_id,
     drug_concept_id AS drug_concept_id,
     unit_concept_id AS unit_concept_id,

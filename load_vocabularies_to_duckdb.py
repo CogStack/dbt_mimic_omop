@@ -30,7 +30,7 @@ for csv_file in CSV_DIR.glob("**/*.csv"):
 
 print(f"DuckDB database at {DB_PATH} with all vocabularies loaded into 'athena' schema.")
 con.execute("""
-CREATE TABLE athena.custom_mappings AS
+CREATE OR REPLACE TABLE athena.custom_mappings AS
 SELECT * FROM read_csv_auto('data/custom_mappings/*.csv');
 """)
 print(f"DuckDB database at {DB_PATH} with custom_mappings loaded into 'athena' schema.")

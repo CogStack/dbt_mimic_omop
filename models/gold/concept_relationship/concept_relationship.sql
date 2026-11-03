@@ -5,8 +5,8 @@
 
 {% for rel in relationship_sources %}
     select
-        cast(concept_id_1 as bigint) as concept_id_1,
-        cast(concept_id_2 as bigint) as concept_id_2,
+        cast(concept_id_1 as integer) as concept_id_1,
+        cast(concept_id_2 as integer) as concept_id_2,
         relationship_id,
         valid_start_date,
         valid_end_date,

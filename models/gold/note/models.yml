@@ -20,7 +20,7 @@ models:
           - unique
 
       - name: person_id
-        data_type: BIGINT
+        data_type: INT
         description: Unique identifier for each person 
         tests:
           - not_null

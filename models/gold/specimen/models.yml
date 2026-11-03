@@ -19,7 +19,7 @@ models:
           - unique
 
       - name: person_id
-        data_type: BIGINT
+        data_type: INT
         description: The person from whom the specimen is collected. 
         tests:
           - not_null

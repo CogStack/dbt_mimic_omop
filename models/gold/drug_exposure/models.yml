@@ -21,7 +21,7 @@ models:
           - unique
 
       - name: person_id
-        data_type: BIGINT
+        data_type: INT
         description: A foreign key to the person table.
         tests:
           - not_null

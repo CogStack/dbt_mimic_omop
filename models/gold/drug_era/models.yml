@@ -20,7 +20,7 @@ models:
           - unique
 
       - name: person_id
-        data_type: BIGINT
+        data_type: INT
         description: >
           A unique identifier for the person who has taken the drug.
         tests:

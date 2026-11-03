@@ -14,7 +14,7 @@ models:
 
     columns:
       - name: person_id
-        data_type: BIGINT
+        data_type: INT
         description: Unique identifier for each person in the dataset.
         tests:
           - not_null

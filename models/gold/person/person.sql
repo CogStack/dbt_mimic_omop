@@ -1,7 +1,7 @@
 -- person can be filtered by patients who have an observation period,
 -- but this is not required by the CDM
 SELECT
-    CAST(hash(p.subject_id) >> 1 AS BIGINT) AS person_id,
+    CAST(p.subject_id AS INTEGER) AS person_id,  -- 32-bit, as many OHDSI tools expect
     CASE
         WHEN p.gender = 'F' THEN 8532  -- FEMALE
         WHEN p.gender = 'M' THEN 8507  -- MALE
